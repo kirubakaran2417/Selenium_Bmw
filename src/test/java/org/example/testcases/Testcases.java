@@ -4,6 +4,7 @@ import org.example.base.BrowserConfiguration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -60,6 +61,27 @@ public void findelementss(){
     }
 
 }
+    @Test(priority = 3)
+    public void mouseactions(){
+        //find how many links in this page
+        driver.navigate().to("https://jqueryui.com/");
+       driver.findElement(By.linkText("Droppable")).click();
+       //code to switch to frame
+       WebElement frame = driver.findElement(By.className("demo-frame"));
+       driver.switchTo().frame(frame);
+       //code to drag and drop
+        WebElement source=driver.findElement(By.id("draggable"));
+        WebElement target=driver.findElement(By.id("droppable"));
+        Actions a=new Actions(driver);
+       // a.dragAndDrop(source, target).build().perform();
+        a.clickAndHold(source).moveToElement(target).release(target).build().perform();
+        driver.switchTo().defaultContent();
+        driver.findElement(By.linkText("Tooltip")).click();
+        driver.switchTo().frame(driver.findElement(By.className("demo-frame")));
+        //code to mouse hover
+        WebElement element=driver.findElement(By.linkText("Tooltips"));
+        a.moveToElement(element).build().perform();
+    }
 //    @AfterTest
 //    public void tearDown(){
 //        driver.quit();
