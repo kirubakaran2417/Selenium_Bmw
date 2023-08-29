@@ -29,6 +29,10 @@ public class Testcases {
     public void locators(){
     //using linktext
     driver.findElement(By.linkText("Sample Forms")).click();
+    //how to handle textbox elements using id
+    driver.findElement(By.id("subject")).sendKeys("AZOLA");
+    driver.findElement(By.name("q5")).click();
+    driver.findElement(By.xpath("//input[@name='email_to[]'][@value='1']")).click();
 }
 //    @AfterTest
 //    public void tearDown(){
