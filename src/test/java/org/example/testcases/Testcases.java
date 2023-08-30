@@ -2,6 +2,7 @@ package org.example.testcases;
 
 import org.example.base.BrowserConfiguration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -10,7 +11,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Testcases {
     public WebDriver driver;
@@ -81,6 +84,32 @@ public void findelementss(){
         //code to mouse hover
         WebElement element=driver.findElement(By.linkText("Tooltips"));
         a.moveToElement(element).build().perform();
+    }
+    @Test(priority = 4)
+    public void alertsandWindows() throws InterruptedException {
+        driver.navigate().to("https://nxtgenaiacademy.com/alertandpopup/");
+        WebElement link=driver.findElement(By.name("confirmalertbox"));
+        //link.click();
+        //whenever element is not interactable with selenium locators use JavascriptExecutor
+        JavascriptExecutor js=(JavascriptExecutor)driver;
+        js.executeScript("arguments[0].click();", link);
+        driver.switchTo().alert().accept();
+        //simple alert,confirm and prompt alert
+
+    }
+    @Test(priority = 4)
+    public void WindowsHandling() throws InterruptedException {
+        driver.navigate().to("https://nxtgenaiacademy.com/multiplewindows/");
+        driver.findElement(By.name("123newmessagewindow321")).click();
+        //to handle windows driver.switchTo().window() and getwindowhandles() method
+        Set<String> ids=driver.getWindowHandles();//set is unoredered so we have to convert that to list then we can access
+        System.out.println("Total number of windows: "+ids.size());
+        List<String> windows=new ArrayList<>(ids);
+        driver.switchTo().window(windows.get(1));//child window
+        System.out.println(driver.getTitle());
+        driver.switchTo().window(windows.get(0));//parent window
+        System.out.println(driver.getTitle());
+
     }
 //    @AfterTest
 //    public void tearDown(){
