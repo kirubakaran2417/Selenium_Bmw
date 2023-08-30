@@ -85,7 +85,7 @@ public void findelementss(){
         WebElement element=driver.findElement(By.linkText("Tooltips"));
         a.moveToElement(element).build().perform();
     }
-    @Test(priority = 4)
+    @Test(priority = 4,groups = "regresion")
     public void alertsandWindows() throws InterruptedException {
         driver.navigate().to("https://nxtgenaiacademy.com/alertandpopup/");
         WebElement link=driver.findElement(By.name("confirmalertbox"));
@@ -97,7 +97,7 @@ public void findelementss(){
         //simple alert,confirm and prompt alert
 
     }
-    @Test(priority = 4)
+    @Test(priority = 4,groups = "regression")
     public void WindowsHandling() throws InterruptedException {
         driver.navigate().to("https://nxtgenaiacademy.com/multiplewindows/");
         driver.findElement(By.name("123newmessagewindow321")).click();

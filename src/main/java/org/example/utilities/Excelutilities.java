@@ -42,13 +42,34 @@ public class Excelutilities {
         fis = new FileInputStream(path);
         workbook = new XSSFWorkbook(fis);
         sheet = workbook.getSheet(sheetName);
+
+        if (sheet == null) {
+            throw new IllegalArgumentException("Sheet with name " + sheetName + " not found");
+        }
+
         row = sheet.getRow(rowNum);
+
+        if (row == null) {
+            throw new IllegalArgumentException("Row " + rowNum + " not found in sheet " + sheetName);
+        }
+
         cell = row.getCell(colNum);
-        //to format all the data
+
+        if (cell == null) {
+            throw new IllegalArgumentException("Cell at row " + rowNum + ", column " + colNum + " is empty");
+        }
+
+        // To format all the data
         DataFormatter formatter = new DataFormatter();
-        String data;
-        data = formatter.formatCellValue(cell);
+        String data = formatter.formatCellValue(cell);
+
+        // Close resources
+        workbook.close();
+        fis.close();
+
         return data;
     }
 
 }
+
+
