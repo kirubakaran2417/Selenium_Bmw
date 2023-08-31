@@ -5,6 +5,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 
+import java.time.Duration;
+
 public class BrowserConfiguration {
     public static WebDriver driver;
     /**
@@ -23,6 +25,7 @@ public class BrowserConfiguration {
         options.addArguments("--disable-notifications");
         options.addArguments("--headless");
         driver=new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         //to maximize the browser
         driver.manage().window().maximize();
         return driver;

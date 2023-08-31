@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="C:/Users/DELL AIO/IdeaProjects/SeleniumDemos">
-        <groups>
-            <run>
-                <include name="regression"/>
-            </run>
-        </groups>
-    <classes>
-        <class name="org.example.testcases.Datadriventests"/>
-        <class name="org.example.testcases.Testcases"/>
-    </classes>
-</test>
+    <test thread-count="5" parallel="tests" verbose="2" preserve-order="true" name="C:/Users/DELL AIO/IdeaProjects/SeleniumDemos">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="org.example.testcases.SeleniumGridTest"/>
+        </classes>
+    </test>
+    <test thread-count="5" parallel="tests" verbose="2" preserve-order="true" name="C:/Users/DELL AIO/IdeaProjects/SeleniumDemos2">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="org.example.testcases.SeleniumGridTest"/>
+        </classes>
+    </test>
 </suite>

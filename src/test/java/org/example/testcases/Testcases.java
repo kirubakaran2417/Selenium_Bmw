@@ -4,15 +4,23 @@ import org.example.base.BrowserConfiguration;
 import org.example.base.Utils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 @Listeners(org.example.testcases.Listeners.class)
 public class Testcases{
     public WebDriver driver;
@@ -96,7 +104,7 @@ public void findelementss(){
         //simple alert,confirm and prompt alert
 
     }
-    @Test(priority = 4,groups = "regression")
+    @Test(priority = 4,groups = "regression",enabled = false)
     public void WindowsHandling() throws InterruptedException {
         driver.navigate().to("https://nxtgenaiacademy.com/multiplewindows/");
         driver.findElement(By.name("123newmessagewindow321")).click();
@@ -106,8 +114,8 @@ public void findelementss(){
         List<String> windows=new ArrayList<>(ids);
         driver.switchTo().window(windows.get(1));//child window
         System.out.println(driver.getTitle());
-        driver.switchTo().window(windows.get(0));//parent window
-        System.out.println(driver.getTitle());
+        driver.quit();//child window
+        driver.close();
 
     }
     @Test(priority = 5)
@@ -122,6 +130,34 @@ public void findelementss(){
         utils=new Utils(driver);
         utils.takeScreenshot("BMW123.jpg");
 
+    }
+    @Test(priority = 7)
+    public void waitss() throws InterruptedException {
+        driver.navigate().to("http://uitestingplayground.com/clientdelay");
+        driver.findElement(By.id("ajaxButton")).click();
+//        Thread.sleep(20000);
+        //Explicit timeout
+        WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(17));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("p.bg-success")));
+        boolean result = driver.findElement(By.cssSelector("p.bg-success")).isDisplayed();
+        System.out.println(result);
+    }
+    @Test(priority = 8)
+    public void assertionsdemo() throws Exception {
+        driver.navigate().to("https://practicetestautomation.com/practice-test-login/");
+        driver.findElement(By.id("username")).sendKeys("student");
+        driver.findElement(By.id("password")).sendKeys("Password123");
+        driver.findElement(By.id("submit")).click();
+
+        //Assertions->verify your expected result and actual result
+        //Hard assertion ->verify your expected result and actual result if both are same then it will pass otherwise it will fail the test will be interrupted
+        //Soft assertion ->verify your expected result and actual result if both are same then it will pass otherwise it will fail the test will not interrupt
+        String expectedResult = "Congratulations student. You successfully logged in!";
+        //soft assertion
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(driver.findElement(By.xpath("//*[contains(text(),'"+expectedResult+"')]")).isDisplayed());
+        //hard assertion
+        assertEquals(driver.getCurrentUrl(), "https://practicetestautomation.com/logged-in-successfully/");
     }
 //    @AfterTest
 //    public void tearDown(){
