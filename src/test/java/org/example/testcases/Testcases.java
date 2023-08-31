@@ -1,23 +1,22 @@
 package org.example.testcases;
 
 import org.example.base.BrowserConfiguration;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.example.base.Utils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import org.openqa.selenium.JavascriptExecutor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-public class Testcases {
+@Listeners(org.example.testcases.Listeners.class)
+public class Testcases{
     public WebDriver driver;
-
+    public Utils utils;
     @BeforeTest
     public void setup(){//whenever a method is annotated with @Test, it is a test case,we are testng framework
         driver = BrowserConfiguration.getChromeBrowser();
@@ -109,6 +108,19 @@ public void findelementss(){
         System.out.println(driver.getTitle());
         driver.switchTo().window(windows.get(0));//parent window
         System.out.println(driver.getTitle());
+
+    }
+    @Test(priority = 5)
+    public void Screenshot() throws IOException {
+        driver.navigate().to("https://www.fnb.co.za/");
+        driver.findElement(By.xpath("//button[contains(@onclick,'acceptAllCookies')]")).click();
+
+    }
+    @Test(priority = 6)
+    public void Screenshotdemo() throws IOException {
+        driver.navigate().to("https://www.bmw.co.za/");
+        utils=new Utils(driver);
+        utils.takeScreenshot("BMW123.jpg");
 
     }
 //    @AfterTest
